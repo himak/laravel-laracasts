@@ -28,3 +28,7 @@ Run default migrate:
 Create new migration:
 
 	php artisan make:migration create_projects_table
+
+Run projets migrations:
+
+	php artisan migrate
