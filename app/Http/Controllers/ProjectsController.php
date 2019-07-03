@@ -26,6 +26,12 @@ class ProjectsController extends Controller
     }
 
 
+    public function show()
+    {
+
+    }
+
+
     public function store()
     {
         // return request()->all(); // output is JSON
@@ -39,5 +45,23 @@ class ProjectsController extends Controller
         $project->save();
 
         return redirect('/projects');
+    }
+
+
+    public function edit()
+    {
+
+    }
+
+
+    public function update()
+    {
+
+    }
+
+
+    public function destroy()
+    {
+
     }
 }

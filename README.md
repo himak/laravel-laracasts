@@ -158,3 +158,37 @@ Access to value in request:
 
 	return request()->all(); // output is JSON
 	return request('title'); // output is TEXT
+
+### Episode 11 - Routing Conventions Worth Following
+
+GET	/projects (index) // view all projects
+GET	/projects/create (create) // view FORM for create project
+GET /projects/1 (show) // view detail project
+POST /projects (store) // save a new project
+GET /projects/1/edit (edit) // view FORM for edit project
+PATCH /projects/1 (update)
+DELETE /projects/1 (destroy)
+
+	Route::get('/projects', 'ProjectsController@index');
+	Route::get('/projects/create', 'ProjectsController@create');
+	Route::get('/projects/{project}', 'ProjectsController@show');
+	Route::post('/projects', 'ProjectsController@store');
+	Route::get('/projects/{project}/edit', 'ProjectsController@edit');
+	Route::patch('/projects/{project}', 'ProjectsController@update');
+	Route::delete('/projects/{project}', 'ProjectsController@destroy');
+
+	// or shorter notation and autogenerate routes
+	Route::resource('projects', 'ProjectsController');
+
+
+Get all route list:
+
+	php artisan route:list
+
+Create Posts controller with routes resource:
+
+	php artisan make:controller PostsController -r
+
+Create Posts controller and model with routes resource:
+
+	php artisan make:controller PostsController -r -m Post
