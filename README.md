@@ -32,3 +32,81 @@ Create new migration:
 Run projets migrations:
 
 	php artisan migrate
+
+### Episode 8 - Eloquent, Namespacing, and MVC
+
+Create model Project
+
+	php artisan make:model Project
+
+Run tinker:
+
+	php artisan tinker
+
+#### Tinker commands
+
+View all projects from Projects:
+
+	>>> App\Project:all();
+
+Create a new project for Projects:
+
+	>>> $project = new App\Project;
+	>>> $project->title = 'My First Project';
+	>>> $project->description = 'Lorem ipusum';
+
+View data of new project:
+
+	>>> $project
+
+Save project:
+
+	>>> $project->save();
+
+Create and save another project:
+
+	>>> $project = new App\Project;
+	>>> $project->title = 'My Second Project';
+	>>> $project->description = 'Lorem ipusum';
+	>>> $project->save();
+
+View project:
+
+	>>> App\Project::all()[1];
+
+View title of project:
+
+	>>> App\Project::all()[1]->title;
+
+View titles of all projects:
+
+	>>> App\Project::all()->map->title;
+
+Create Projects Controller
+
+	php artisan make:controller ProjectsController
+
+Send data to view:
+
+- as JSON
+
+		// ProjectsController.php
+		public function index()
+		{
+			$projects = \App\Project::all();
+			return $projects;
+		}
+
+- as HTML
+
+		// ProjectsController.php
+		public function index()
+		{
+			$projects = \App\Project::all();
+			return view('projects.index', compact('projects'));
+		}
+
+		// projects/index.blade.php
+		@foreach($projects as $project)
+			<li>{{ $project->title }}</li>
+		@endforeach
