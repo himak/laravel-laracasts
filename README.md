@@ -125,3 +125,36 @@ Create fake user and save to DB from tinker:
 In file **app/Http/Kernel.php** is all middleware which run during every single request.
 
 In folder **app/Providers** you can find or add next service provider to hooked any component of Laravel.
+
+### Episode 10 - Form Handling and CSRF Protection
+
+##### CSRF Protection
+
+Do not remember add hidden input with token to form:
+
+	<form method="POST" action="/projects">
+		// Blade directive for generate input
+		@csrf
+
+		// only token value
+		{{ csrf_token() }}
+
+Create and save a new project:
+
+	// ProjectsController.php
+	public function store()
+	{
+	    $project = new \App\Project();
+
+	    $project->title = request('title');
+	    $project->description = request('description');
+
+	    $project->save();
+
+	    return redirect('/projects');
+	}
+
+Access to value in request:
+
+	return request()->all(); // output is JSON
+	return request('title'); // output is TEXT

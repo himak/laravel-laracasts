@@ -18,4 +18,26 @@ class ProjectsController extends Controller
     	// OR
     	return view('projects.index')->withProjects($projects);
     }
+
+
+    public function create()
+    {
+    	return view('projects.create');
+    }
+
+
+    public function store()
+    {
+        // return request()->all(); // output is JSON
+        // return request('title'); // output is TEXT
+
+        $project = new \App\Project();
+
+        $project->title = request('title');
+        $project->description = request('description');
+
+        $project->save();
+
+        return redirect('/projects');
+    }
 }
