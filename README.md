@@ -88,7 +88,7 @@ Create Projects Controller
 
 Send data to view:
 
-- as JSON
+- output as JSON
 
 		// ProjectsController.php
 		public function index()
@@ -97,7 +97,7 @@ Send data to view:
 			return $projects;
 		}
 
-- as HTML
+- output prepare to HTML
 
 		// ProjectsController.php
 		public function index()
@@ -110,3 +110,18 @@ Send data to view:
 		@foreach($projects as $project)
 			<li>{{ $project->title }}</li>
 		@endforeach
+
+### Episode 9 - Directory Structure Review
+
+Create fake user from tinker:
+
+	php artisan tinker
+	>>> factory(App\User::class)->make();
+
+Create fake user and save to DB from tinker:
+
+	>>> factory(App\User::class)->create();
+
+In file **app/Http/Kernel.php** is all middleware which run during every single request.
+
+In folder **app/Providers** you can find or add next service provider to hooked any component of Laravel.
