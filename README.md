@@ -200,7 +200,7 @@ Edit controller function (ProjectsController.php):
 	// URL is example.com/projects/1/edit
 	public function edit($id)
 	{
-	    $project = \App\Project::find($id);	// only exist project in DB
+	    $project = \App\Project::findOrFail($id);	// only exist project in DB
 	    // return $project;    // output as JSON
 
 	    return view('projects.edit', compact('project'));
@@ -230,12 +230,40 @@ Update controller function (ProjectsController.php):
 	{
 	    // dd(request()->all());
 
-	    $project = \App\Project::find($id);
+	    $project = \App\Project::findOrFail($id);
 
 	    $project->title = request('title');
 	    $project->description = request('description');
 
 	    $project->save();
+
+	    return redirect('/projects');
+	}
+
+### Episode 13 - Form Delete Requests
+
+Change **find** to **findOrFail** in function edit, update, destroy
+
+	$project = \App\Project::findOrFail($id);	// edit
+	$project = \App\Project::findOrFail($id); // update
+	\App\Project::findOrFail($id)->delete();	// delete
+
+Create DELETE button (edit.blade.php):
+
+	<form method="POST" action="/projects/{{ $project->id }}">
+		@method('DELETE')
+		@csrf
+
+		<div class="control">
+		  <button class="button">Delete Project</button>
+		</div>
+	</form>
+
+Updated controller destroy function (ProjectsController.php):
+
+	public function destroy($id)
+	{
+	    \App\Project::findOrFail($id)->delete();
 
 	    return redirect('/projects');
 	}

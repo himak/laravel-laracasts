@@ -50,7 +50,7 @@ class ProjectsController extends Controller
 
     public function edit($id)  // example.com/projects/1/edit
     {
-        $project = \App\Project::find($id);
+        $project = \App\Project::findOrFail($id);
         // return $project;    // output as JSON
 
         return view('projects.edit', compact('project'));
@@ -61,7 +61,7 @@ class ProjectsController extends Controller
     {
         // dd(request()->all());
 
-        $project = \App\Project::find($id);
+        $project = \App\Project::findOrFail($id);
 
         $project->title = request('title');
         $project->description = request('description');
@@ -72,8 +72,10 @@ class ProjectsController extends Controller
     }
 
 
-    public function destroy()
+    public function destroy($id)
     {
+        \App\Project::findOrFail($id)->delete();
 
+        return redirect('/projects');
     }
 }
