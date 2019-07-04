@@ -86,7 +86,7 @@ class ProjectsController extends Controller
 
         // $project->save();
 
-        Project::update( request( ['title', 'description'] ) );
+        $project->update( request( ['title', 'description'] ) );
 
         return redirect('/projects');
     }

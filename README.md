@@ -349,7 +349,7 @@ NEW CODE for UPDATE
 	$project->save();
 
 	// after
-	Project::update( request( ['title', 'description'] ) );
+	$project->update( request( ['title', 'description'] ) );
 
 
 For NEW CODE you must add this code in model Project:
