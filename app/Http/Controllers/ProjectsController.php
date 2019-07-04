@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Project;
 use Illuminate\Http\Request;
 
 class ProjectsController extends Controller
 {
     public function index()
     {
-    	$projects = \App\Project::all();
+    	$projects = Project::all();
 
     	// output as JSON
     	//return $projects;
@@ -26,55 +27,74 @@ class ProjectsController extends Controller
     }
 
 
-    public function show()
+    public function show(Project $project)
+    // public function show($id)
     {
+        // $project = Project::findOrFail($id);
 
+        // return $project;    // output as JSON
+        return view('projects.show', compact('project'));
     }
 
 
     public function store()
     {
+        // dd(request(['title', 'description']));
+        // dd(request()->all());
+
         // return request()->all(); // output is JSON
         // return request('title'); // output is TEXT
 
-        $project = new \App\Project();
+        // $project = new Project();
 
-        $project->title = request('title');
-        $project->description = request('description');
+        // $project->title = request('title');
+        // $project->description = request('description');
 
-        $project->save();
+        // $project->save();
+
+        // OR 1, not safe
+        // Project::create(request()->all());
+
+        // OR 2, better
+        // Project::create([
+        //     'title' => request('title'),
+        //     'description' => request('description')
+        // ]);
+
+        // OR 3, best
+        Project::create( request( ['title', 'description'] ) );
 
         return redirect('/projects');
     }
 
 
-    public function edit($id)  // example.com/projects/1/edit
+    public function edit(Project $project)  // example.com/projects/1/edit
     {
-        $project = \App\Project::findOrFail($id);
         // return $project;    // output as JSON
-
         return view('projects.edit', compact('project'));
     }
 
 
-    public function update($id)
+    public function update(Project $project)
     {
         // dd(request()->all());
+        // if with ID in update($id)
+        //$project = Project::findOrFail($id);
 
-        $project = \App\Project::findOrFail($id);
+        // $project->title = request('title');
+        // $project->description = request('description');
 
-        $project->title = request('title');
-        $project->description = request('description');
+        // $project->save();
 
-        $project->save();
+        Project::update( request( ['title', 'description'] ) );
 
         return redirect('/projects');
     }
 
 
-    public function destroy($id)
+    public function destroy(Project $project)
     {
-        \App\Project::findOrFail($id)->delete();
+        $project->delete();
 
         return redirect('/projects');
     }

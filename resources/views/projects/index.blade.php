@@ -1,15 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title></title>
-	<link rel="stylesheet" href="">
-</head>
-<body>
-	<h1>Projects</h1>
-	@foreach($projects as $project)
-		<li>{{ $project->title }}</li>
-	@endforeach
-</body>
-</html>
+@extends('layout')
+
+@section('content')
+
+	<h1 class="title">Projects</h1>
+
+	<ul>
+		@foreach($projects as $project)
+			<li>
+				<a href="/projects/{{ $project->id }}">{{ $project->title }}</a>
+			</li>
+		@endforeach
+	</ul>
+
+	<p>
+		<a href="/projects/create" class="button is-primary">Create Project</a>
+	</p>
+
+@endsection

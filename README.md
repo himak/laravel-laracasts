@@ -267,3 +267,145 @@ Updated controller destroy function (ProjectsController.php):
 
 	    return redirect('/projects');
 	}
+
+### Episode 14 - Cleaner Controllers and Mass Assignment Concerns
+
+Create SHOW function in controller:
+
+	public function show($id)
+	{
+	    $project = Project::findOrFail($id);
+
+	    // return $project;    // output as JSON
+	    return view('projects.show', compact('project'));
+	}
+
+	OR next with wildcard
+
+	public function show(Project $project)
+	{
+	    // return $project;    // output as JSON
+	    return view('projects.show', compact('project'));
+	}
+
+Create detail project page with edit link (show.blade.php):
+
+	<h1 class="title">{{ $project->title }}</h1>
+
+	<div class="content">{{ $project->description }}</div>
+
+	<p>
+		<a href="/projects/{{ $project->id }}/edit">Edit Project</a>
+	</p>
+
+Add namespace Project in top of controller file:
+
+	use App\Project;
+
+for short code:
+
+	$projects = \App\Project::all();	// before
+	$projects = Project::all();		// after
+
+Change parameter in functions ProjectController:
+
+	public function destroy($id) // before
+	public function destroy(Project $project) // after
+
+	// e.g. for DELETE
+	Project::findOrFail($id)->delete();
+	$project->delete();
+
+Change syntax code in store():
+
+BEFORE
+
+	$project = new Project();
+
+	$project->title = request('title');
+	$project->description = request('description');
+
+	$project->save();
+
+NEW CODE for CREATE
+
+	// before, but not safe
+	Project::create(request()->all());
+
+	// better, but not clean code
+	Project::create([
+	     'title' => request('title'),
+	     'description' => request('description')
+	]);
+
+	// best clean and safe code
+	Project::create( request( ['title', 'description'] ) );
+
+NEW CODE for UPDATE
+
+	// before
+	$project->title = request('title');
+	$project->description = request('description');
+	$project->save();
+
+	// after
+	Project::update( request( ['title', 'description'] ) );
+
+
+For NEW CODE you must add this code in model Project:
+
+    // I accept only this value
+    protected $fillable = [
+    	'title',
+    	'description'
+    ];
+
+	// I accept EXCEPT this value
+    protected $guarded = [
+     	'title', 'description'
+    ];
+
+	// I accept all values
+    protected $guarded = [];
+
+Request data:
+
+	dd(
+		request(
+			'title',
+			'description'
+		)
+	);
+
+	// in browser output as raw text only title:
+	This is a title project
+
+	dd(
+		request(
+			[
+				'title',
+				'description'
+			]
+		)
+	);
+
+	// in browser output as ARRAY with key
+
+	array:2 [▼
+	  "title" => "This is a title project"
+	  "description" => "Some text"
+	]
+
+	// If
+	dd(request()->all());
+
+	// in browser
+	array:3 [▼
+	  "_token" => "Mb9W9ywrzArrk2qLGpH0lvwiTGat2XxBeLoKLOD5"
+	  "id" => "1000"
+	  "title" => "Title"
+	  "description" => "Text"
+	]
+
+
+
