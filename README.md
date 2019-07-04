@@ -189,6 +189,53 @@ Create Posts controller with routes resource:
 
 	php artisan make:controller PostsController -r
 
-Create Posts controller and model with routes resource:
+Create Posts controller with model and routes resource:
 
 	php artisan make:controller PostsController -r -m Post
+
+### Episode 12 - Faking PATCH and DELETE Requests
+
+Edit controller function (ProjectsController.php):
+
+	// URL is example.com/projects/1/edit
+	public function edit($id)
+	{
+	    $project = \App\Project::find($id);	// only exist project in DB
+	    // return $project;    // output as JSON
+
+	    return view('projects.edit', compact('project'));
+	}
+
+Edit HTML form (edit.blade.php):
+
+	<form method="POST" action="/projects/{{ $project->id }}">
+		/*
+		 	You must add, because app have only PATH route
+			Route::patch('/projects/{project}', 'ProjectsController@update');
+		*/
+		{{ method_field('PATCH') }}
+
+		@csrf
+
+	    <input class="input" type="text" name="title" value="{{ $project->title }}">
+
+	    <textarea class="textarea" name="description">{{ $project->description }}</textarea>
+
+	  <button type="submit">Update Project</button>
+	</form>
+
+Update controller function (ProjectsController.php):
+
+	public function update($id)
+	{
+	    // dd(request()->all());
+
+	    $project = \App\Project::find($id);
+
+	    $project->title = request('title');
+	    $project->description = request('description');
+
+	    $project->save();
+
+	    return redirect('/projects');
+	}

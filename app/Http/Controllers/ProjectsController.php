@@ -48,15 +48,27 @@ class ProjectsController extends Controller
     }
 
 
-    public function edit()
+    public function edit($id)  // example.com/projects/1/edit
     {
+        $project = \App\Project::find($id);
+        // return $project;    // output as JSON
 
+        return view('projects.edit', compact('project'));
     }
 
 
-    public function update()
+    public function update($id)
     {
+        // dd(request()->all());
 
+        $project = \App\Project::find($id);
+
+        $project->title = request('title');
+        $project->description = request('description');
+
+        $project->save();
+
+        return redirect('/projects');
     }
 
 
