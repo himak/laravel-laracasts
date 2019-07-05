@@ -406,6 +406,3 @@ Request data:
 	  "title" => "Title"
 	  "description" => "Text"
 	]
-
-
-

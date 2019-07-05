@@ -12,7 +12,7 @@
 		@endforeach
 	</ul>
 
-	<p>
+	<p style="margin-top: 20px;">
 		<a href="/projects/create" class="button is-primary">Create Project</a>
 	</p>
 
