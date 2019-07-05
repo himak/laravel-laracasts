@@ -454,3 +454,83 @@ Or next clean:
 
 More validation rules: [https://laravel.com/docs/5.8/validation#available-validation-rules](https://laravel.com/docs/5.8/validation#available-validation-rules)
 
+### Episode 16 - Your First Eloquent Relationships
+
+Create Tasks:
+
+	php artisan make:model Task -m -f
+
+Create relationship Task with Project. Add function to Project.php model:
+
+	public function tasks()
+	{
+		return $this->hasMany(Task:class);
+	}
+
+Start PHP console Tinker:
+
+    php artisan tinker
+    >>> App\Project::first();
+    => App\Project {#2974
+         id: 1,
+         title: "Title",
+         description: "Adam",
+         created_at: "2019-07-05 14:21:05",
+         updated_at: "2019-07-05 14:21:05",
+       }
+       
+Create two Task in database and set Project id = 1, etc:
+
+    >>> App\Project::first()->tasks;
+    => Illuminate\Database\Eloquent\Collection {#2969
+         all: [
+           App\Task {#2960
+             id: 1,
+             project_id: 1,
+             description: "First task",
+             completed: 0,
+             created_at: "2019-07-05 22:34:11",
+             updated_at: "2019-07-05 22:34:18",
+           },
+           App\Task {#2958
+             id: 2,
+             project_id: 1,
+             description: "Next task",
+             completed: 0,
+             created_at: "2019-07-05 22:40:56",
+             updated_at: "2019-07-05 22:40:56",
+           },
+         ],
+       }
+    >>> 
+
+Create relationship Project with Tasks. Add function to Task.php model:
+
+    class Task extends Model
+    {
+        public function project ()
+        {
+            return $this->belongsTo(Project::class);
+        }
+    }
+
+Run PHP console tinker:
+
+    >>> $task = App\Task::first()
+    => App\Task {#2973
+         id: 1,
+         project_id: 1,
+         description: "First task",
+         completed: 0,
+         created_at: "2019-07-05 22:34:11",
+         updated_at: "2019-07-05 22:34:18",
+       }
+    >>> $task->project
+    => App\Project {#2958
+         id: 1,
+         title: "Title",
+         description: "Adam",
+         created_at: "2019-07-05 14:21:05",
+         updated_at: "2019-07-05 14:21:05",
+       }
+    >>> 
