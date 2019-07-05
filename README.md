@@ -406,3 +406,51 @@ Request data:
 	  "title" => "Title"
 	  "description" => "Text"
 	]
+
+### Episode 15 - Two Layers of Validation
+
+Update store method and add validation:
+
+	public function store()
+	{
+	    request()->validate([
+	        'title' => 'required|min:3|max:255',
+	        // 'title' => ['required','min:3'],     // OR another style writing
+	        'description' => 'required|min:3',
+	    ]);
+
+	    Project::create( request( ['title', 'description'] ) );
+
+	    return redirect('/projects');
+	}
+
+Or another style writing and add validation:
+
+	public function store()
+	{
+	    $attributes = request()->validate([
+	        'title' => 'required|min:3|max:255',
+	        'description' => 'required|min:3',
+	    ]);
+
+	    Project::create( request( $attributes ) );
+
+	    return redirect('/projects');
+	}
+
+Or next clean:
+
+	public function store()
+	{
+	    Project::create(
+	    	request()->validate([
+	        	'title' => 'required|min:3|max:255',
+	        	'description' => 'required|min:3',
+	    	])
+	    );
+
+	    return redirect('/projects');
+	}
+
+More validation rules: [https://laravel.com/docs/5.8/validation#available-validation-rules](https://laravel.com/docs/5.8/validation#available-validation-rules)
+
