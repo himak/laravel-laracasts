@@ -611,3 +611,95 @@ Run this command:
 
     composer outdated           // view newest version
     composer update             // run update
+
+### Episode 18 - Create New Project Task
+
+Add create Task form to project view (projects/show.blade.php)
+
+    <form method="POST" action="/projects/{{ $project->id }}/tasks " class="box">
+        @csrf
+        <div class="field">
+            <label for="description" class="label">New Task</label>
+
+            <div class="control">
+                <input type="text" class="input" name="description" placeholder="New Task">
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="control">
+                <button class="button is-link" type="submit">Add Task</button>
+            </div>
+        </div>
+    </form>
+    
+Add route:
+
+    Route::post('projects/{project}/tasks', 'ProjectTasksController@store');
+    
+Create store method in ProjectTasksController.php
+
+    public function store(Project $project)
+    {
+         Task::create([
+            'project_id'    =>  $project->id,
+            'description'    =>   request( 'description')
+         ]);
+
+         return back();
+    }
+
+Refactor code for store method:
+
+    $project->addTask(request( 'description'));
+    
+and create new function addTask() in Project model:
+    
+    public function addTask($description)
+    {
+        return Task::create([
+            'project_id'    =>  $this->id,
+            'description'    =>   $description
+        ]);
+    }
+    
+    // or pretty clean code
+    
+    public function addTask($description)
+    {
+        $this->tasks()->create(compact('description')); 
+    }
+
+Add validation for New Task:
+
+    public function store(Project $project)
+    {
+        $attributes = request()->validate(['description' => 'required']);
+
+        $project->addTask($attributes);
+
+        return back();
+    }
+
+Create file errors.blade.php and include to 
+
+    projects/create.blade.php
+    projects/show.blade.php
+    
+    @include('errors')
+
+
+Update parameter for method addTask() in Project model:
+
+    // from
+    public function addTask($description)
+    {
+        $this->tasks()->create(compact('description')); 
+    }
+    
+    // to
+    public function addTask($task)
+    {
+        $this->tasks()->create($task);
+    }
+    
