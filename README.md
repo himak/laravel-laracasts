@@ -555,5 +555,45 @@ Add code for poject view (projects/show.blade.php):
 
 ### Episode 17 - Form Action Considerations
 
-PATCH   /projects/id/task/id
-PATCH   /tasks/id
+    PATCH   /projects/id/task/id
+    PATCH   /tasks/id
+    
+Edit project view (projects/show.blade.php) and add form to update tasks for projects:
+
+    @if($project->tasks->count())
+        @foreach( $project->tasks as $task )
+            <form method="POST" action=/tasks/{{ $task->id }}>
+                @method('PATCH')
+                @csrf
+
+                <label for="completed" class="checkbox {{ $task->completed ? 'is-complete' : '' }}">
+                    <input type="checkbox" name="completed" onchange="this.form.submit()" {{ $task->completed ? 'checked' : '' }}>
+                    {{ $task->description }}
+                </label>
+            </form>
+        @endforeach
+    @endif
+    
+Add CSS style .is-complete:
+
+    .is-complete { text-decoration: line-through; }
+    
+Add route:
+
+    Route::patch('tasks/{task}', 'ProjectTasksController@update');
+
+
+Add update method for task (ProjectTasksController.php):
+
+    public function update(Task $task)
+    {
+        $task->update([
+            'completed' =>  request()->has('completed')
+        ]);
+
+        return back();
+    }
+
+Add to fillable preperty to allow mass assignment on Task model:
+
+    protected $guarded = [];

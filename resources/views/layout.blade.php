@@ -35,6 +35,12 @@
 
         });
     </script>
+
+    <style>
+        .is-complete {
+            text-decoration: line-through;
+        }
+    </style>
 </head>
 <body class="">
 
