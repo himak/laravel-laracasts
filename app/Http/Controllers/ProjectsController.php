@@ -11,7 +11,9 @@ class ProjectsController extends Controller
     {
     	$projects = Project::all();
 
-    	return view('projects.index')->withProjects($projects);
+    	return view('projects.index')
+            ->withProjects($projects)
+            ->withTitle("List of projects");
     }
 
 

@@ -53,19 +53,70 @@
 @endsection
 
 @section('content')
-	<h1>Contact Form</h1>
 
-	<div class="container">
-		<form action="#">
+    <section class="hero is-medium is-light is-bold">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Contact
+                </h1>
+                <h2 class="subtitle">
+                    Send us message
+                </h2>
+            </div>
+        </div>
+    </section>
 
-			<label>Name<input type="text"></label>
+    <br>
 
-			<label>E-mail<input type="text" value="@"></label>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-half is-offset-3">
 
-			<label>Message<textarea></textarea></label>
+                <div class="field">
+                    <label class="label">Name</label>
+                    <div class="control has-icons-left has-icons-right">
+                        <input class="input" type="text" placeholder="name">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-user"></i>
+                        </span>
+                    </div>
+                </div>
 
-			<button type="submit">Send</button>
-		</form>
-	</div>
+                <div class="field">
+                    <label class="label">Email</label>
+                    <div class="control has-icons-left has-icons-right">
+                        <input class="input is-danger" type="email" placeholder="Email input" value="hello@">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                        <span class="icon is-small is-right">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </span>
+                    </div>
+                    <p class="help is-danger">This email is invalid</p>
+                </div>
+
+                <div class="field">
+                    <label class="label">Message</label>
+                    <div class="control">
+                        <textarea class="textarea" placeholder="Textarea"></textarea>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <label class="checkbox">
+                            <input type="checkbox">
+                            I agree to the <a href="#">terms and conditions</a>
+                        </label>
+                    </div>
+                </div>
+
+                <button class="button is-primary">Send</button>
+
+            </div>
+        </div>
+    </div>
 
 @endsection

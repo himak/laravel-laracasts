@@ -161,13 +161,13 @@ Access to value in request:
 
 ### Episode 11 - Routing Conventions Worth Following
 
-GET	/projects (index) // view all projects
-GET	/projects/create (create) // view FORM for create project
-GET /projects/1 (show) // view detail project
-POST /projects (store) // save a new project
-GET /projects/1/edit (edit) // view FORM for edit project
-PATCH /projects/1 (update)
-DELETE /projects/1 (destroy)
+	GET	/projects (index) // view all projects
+	GET	/projects/create (create) // view FORM for create project
+	GET /projects/1 (show) // view detail project
+	POST /projects (store) // save a new project
+	GET /projects/1/edit (edit) // view FORM for edit project
+	PATCH /projects/1 (update)
+	DELETE /projects/1 (destroy)
 
 	Route::get('/projects', 'ProjectsController@index');
 	Route::get('/projects/create', 'ProjectsController@create');
@@ -478,7 +478,7 @@ Start PHP console Tinker:
          created_at: "2019-07-05 14:21:05",
          updated_at: "2019-07-05 14:21:05",
        }
-       
+
 Create two Task in database and set Project id = 1, etc:
 
     >>> App\Project::first()->tasks;
@@ -502,16 +502,23 @@ Create two Task in database and set Project id = 1, etc:
            },
          ],
        }
-    >>> 
+    >>>
 
 Create relationship Project with Tasks. Add function to Task.php model:
 
     class Task extends Model
     {
-        public function project ()
+        public function project()
         {
             return $this->belongsTo(Project::class);
         }
+    }
+    
+And add function to Project.php model:
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
     }
 
 Run PHP console tinker:
@@ -533,4 +540,20 @@ Run PHP console tinker:
          created_at: "2019-07-05 14:21:05",
          updated_at: "2019-07-05 14:21:05",
        }
-    >>> 
+    >>>
+
+Add code for poject view (projects/show.blade.php):
+    
+    @if($project->tasks->count())
+        <ul>
+            @foreach( $project->tasks as $task )
+               <li>{{ $task->description }}</li>
+            @endforeach
+        </ul>
+    @endif
+
+
+### Episode 17 - Form Action Considerations
+
+PATCH   /projects/id/task/id
+PATCH   /tasks/id

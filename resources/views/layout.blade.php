@@ -7,7 +7,7 @@
     <title>@yield('title', 'Laracasts')</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
- {{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.slim.min.js" defer></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.slim.min.js" defer></script>
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', () => {
 
@@ -36,22 +36,30 @@
         });
     </script>
 </head>
-<body>
+<body class="">
 
     <nav class="navbar" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </a>
-        </div>
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="/">
+                    <img src="https://laravel.com/img/logomark.min.svg" alt="Laravel" style="margin-right: 10px">
+                    <img src="https://laravel.com/img/logotype.min.svg" alt="Laravel">
+                </a>
 
-        <div id="navbarBasicExample" class="navbar-menu">
-            <div class="navbar-start">
-                <a class="navbar-item" href="/">Home</a>
-                <a class="navbar-item" href="/about">About</a>
-                <a class="navbar-item" href="/contact">Contact</a>
+                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+
+            <div id="navbarBasicExample" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="/">Home</a>
+                    <a class="navbar-item" href="/about">About</a>
+                    <a class="navbar-item" href="/contact">Contact</a>
+                    <a class="navbar-item" href="/projects">Projects</a>
+                </div>
             </div>
         </div>
     </nav>

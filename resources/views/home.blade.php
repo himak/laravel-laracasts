@@ -1,11 +1,28 @@
 @extends('layout')
 
 @section('content')
-	<h1>My {{ $foo }} Website!</h1>
-	{{-- None escape variable javascript --}}
-	<h1>My {!! $foo !!} Website!</h1>
 
-	@foreach($tasks as $task)
-		<li>{{ $task }}</li>
-	@endforeach
+    <section class="hero is-medium is-light is-bold">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Home
+                </h1>
+                <h2 class="subtitle">
+                    Welcome
+                </h2>
+            </div>
+        </div>
+    </section>
+
+    <br>
+
+    <div class="container">
+        <div class="columns">
+            <div class="column is-half is-offset-3">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor, doloribus ex in iste iure mollitia nemo nobis officia perspiciatis placeat porro quisquam, ratione reiciendis sapiente sunt, suscipit totam veniam voluptate. </p>
+            </div>
+        </div>
+    </div>
+
 @endsection
