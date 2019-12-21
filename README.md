@@ -597,3 +597,17 @@ Add update method for task (ProjectTasksController.php):
 Add to fillable preperty to allow mass assignment on Task model:
 
     protected $guarded = [];
+
+
+### Update Laravel 5.8.x and all support dependencies:
+    
+Check composer.json without ^ for laravel:
+
+    "require": {
+        "laravel/framework": "5.8.*",       // its correct
+    },
+
+Run this command:
+
+    composer outdated           // view newest version
+    composer update             // run update
