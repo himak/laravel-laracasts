@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 
 use App\Project;
 use App\Task;
-use Illuminate\Http\Request;
 
 class ProjectTasksController extends Controller
 {
@@ -20,9 +19,18 @@ class ProjectTasksController extends Controller
 
     public function update(Task $task)
     {
-        $task->update([
-            'completed' =>  request()->has('completed')
-        ]);
+        //$task->update([
+        //    'completed' =>  request()->has('completed')
+        //]);
+        //$task->complete(request()->has('completed'));
+
+        //if (request()->has('completed')) {
+        //    $task->complete();
+        //} else {
+        //    $task->incomplete();
+        //}
+        // or better
+        request()->has('completed') ? $task->complete() : $task->incomplete();
 
         return back();
     }

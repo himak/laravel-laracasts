@@ -703,3 +703,55 @@ Update parameter for method addTask() in Project model:
         $this->tasks()->create($task);
     }
     
+### Episode 19 - Better Encapsulation
+
+Create method complete() in Task model:
+
+    public function complete($completed = true)
+    {
+        $this->update(['completed' => $completed]);
+        // or clean code
+        $this->update(compact('completed'));
+    }
+
+Edit method update in ProjectTasksController:
+
+    public function update(Task $task)
+    {
+        $task->complete(request()->has('completed'));
+    
+        return back();
+    }
+            
+Its better encapsulation for update task.
+
+Create method incomplete() in Task model:
+    
+    public function incomplete()
+    {
+        //$this->update(['completed' => false]);
+        // or cleancode
+        $this->complete(false);
+    }
+
+and edit method update() in ProjectTasksController:
+
+    public function update(Task $task)
+    {
+        //$task->update([
+        //    'completed' =>  request()->has('completed')
+        //]);
+
+        //$task->complete(request()->has('completed'));
+
+        //if (request()->has('completed')) {
+        //    $task->complete();
+        //} else {
+        //    $task->incomplete();
+        //}
+        
+        // or better write code with ternary operator:
+        request()->has('completed') ? $task->complete() : $task->incomplete();
+    
+        return back();
+    }
