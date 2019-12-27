@@ -36,7 +36,7 @@
                     <label for="description" class="label">New Task</label>
 
                     <div class="control">
-                        <input type="text" class="input {{ $errors->has('input') ? 'is-danger' : '' }}" name="description" placeholder="New Task">
+                        <input type="text" class="input {{ $errors->has('description') ? 'is-danger' : '' }}" name="description" placeholder="New Task">
                     </div>
                 </div>
 
